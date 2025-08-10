@@ -1,0 +1,865 @@
+/* 레이아웃 스타일 */
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.nav {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navTabs {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navTab {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.navTab:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.navTabActive {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.navTabInactive {
+  color: #4b5563;
+}
+
+.navTabInactive:hover {
+  color: #1f2937;
+  background-color: #f9fafb;
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: white;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.navButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+.uploadButton {
+  background-color: #2563eb;
+}
+
+.uploadButton:hover {
+  background-color: #1d4ed8;
+}
+
+.shareButton {
+  background-color: #16a34a;
+}
+
+.shareButton:hover {
+  background-color: #15803d;
+}
+
+/* 헤더 스타일 */
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem 1.5rem;
+}
+
+.headerContainer {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.headerTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* 메인 콘텐츠 스타일 */
+.mainContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.contentContainer {
+  width: 100%;
+  max-width: 72rem;
+  padding: 1rem 1.5rem;
+}
+
+/* 캘린더 컨트롤 스타일 */
+.calendarControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.dateNavigation {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dateNavButton {
+  padding: 0.375rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: #6b7280;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.dateNavButton:hover {
+  background-color: #f9fafb;
+}
+
+.dateNavButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.currentDate {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.viewModeToggle {
+  display: flex;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.viewModeButton {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.viewModeButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.viewModeButtonActive {
+  background-color: white;
+  color: #1f2937;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: default;
+}
+
+.viewModeButtonInactive {
+  background: none;
+  color: #6b7280;
+}
+
+.viewModeButtonInactive:hover {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+/* 캘린더 뷰 스타일 */
+.calendarView {
+  width: 100%;
+  height: 43rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+/* 월간 뷰 스타일 */
+.monthlyView {
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+}
+
+.monthlyGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.dayHeader {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #4b5563;
+  background-color: #f9fafb;
+  user-select: none;
+}
+
+/* 날짜 셀 스타일 */
+.dateCell {
+  min-height: 5rem;
+  padding: 0.375rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.dateCell:hover {
+  background-color: #eff6ff;
+}
+
+.dateCellCurrentMonth {
+  background-color: white;
+}
+
+.dateCellOtherMonth {
+  background-color: #f9fafb;
+}
+
+.dateCellToday {
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.dateNumber {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.dateNumberCurrentMonth {
+  color: #374151;
+}
+
+.dateNumberOtherMonth {
+  color: #9ca3af;
+}
+
+.dateNumberToday {
+  color: #2563eb;
+}
+
+.lectureList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* 주간 뷰 스타일 */
+.weeklyView {
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+}
+
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.375rem;
+  height: 100%;
+}
+
+.weeklyDayCard {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: all 0.2s;
+}
+
+.weeklyDayCardToday {
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.weeklyDayHeader {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.weeklyDayName {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.weeklyDayNumber {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.weeklyDayNumberToday {
+  color: #2563eb;
+}
+
+.weeklyLectureList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* 일간 뷰 스타일 */
+.dailyView {
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+}
+
+.dailyContainer {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  height: 100%;
+  transition: all 0.2s;
+}
+
+.dailyHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.dailyDate {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.dailyDateToday {
+  color: #2563eb;
+}
+
+.dailyLectureList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  max-height: 18rem;
+}
+
+.dailyLectureCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: white;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.dailyLectureCard:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dailyLectureContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.dailyLectureInfo {
+  flex: 1;
+}
+
+.dailyLectureTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.dailyLectureMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.dailyLectureMetaItem {
+  display: flex;
+  align-items: center;
+}
+
+.dailyLectureDescription {
+  color: #4b5563;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.dailyLectureMaterials {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.dailyLectureColorBar {
+  width: 0.75rem;
+  height: 3rem;
+  border-radius: 0.25rem;
+  margin-left: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 0;
+  color: #9ca3af;
+}
+
+/* 강의 카드 스타일 */
+.lectureCard {
+  color: white;
+  padding: 0.25rem 0.375rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.125rem;
+  transition: transform 0.2s;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-size: 0.65rem;
+}
+
+.lectureCard:hover {
+  transform: scale(1.02);
+}
+
+.lectureCardTitle {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.lectureCardTime {
+  font-size: 0.6rem;
+  opacity: 0.9;
+  line-height: 1.1;
+}
+
+.lectureCardInstructor {
+  font-size: 0.6rem;
+  opacity: 0.9;
+  line-height: 1.1;
+}
+
+/* 강의 색상 클래스 */
+.lectureBlue {
+  background: linear-gradient(to bottom right, #3b82f6, #1d4ed8);
+}
+
+.lectureGreen {
+  background: linear-gradient(to bottom right, #10b981, #047857);
+}
+
+.lecturePurple {
+  background: linear-gradient(to bottom right, #8b5cf6, #6d28d9);
+}
+
+.lectureOrange {
+  background: linear-gradient(to bottom right, #f59e0b, #d97706);
+}
+
+.lectureRed {
+  background: linear-gradient(to bottom right, #ef4444, #dc2626);
+}
+
+.lecturePink {
+  background: linear-gradient(to bottom right, #ec4899, #db2777);
+}
+
+/* 자료실 스타일 */
+.materialsContainer {
+  width: 100%;
+  height: 43rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+.materialsTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.materialsEmptyState {
+  text-align: center;
+  padding: 3rem 0;
+  color: #9ca3af;
+}
+
+/* 모달 스타일 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modalBackdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.2s;
+}
+
+.modalContent {
+  position: relative;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.modalHeader {
+  padding: 1.5rem;
+  color: white;
+}
+
+.modalHeaderContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.modalHeaderMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.modalMetaItem {
+  display: flex;
+  align-items: center;
+}
+
+.modalMetaIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+}
+
+.modalCloseButton {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.modalCloseButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modalCloseIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.modalBody {
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.modalSection {
+  margin-bottom: 1.5rem;
+}
+
+.modalSection:last-child {
+  margin-bottom: 0;
+}
+
+.modalSectionTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.modalInstructorInfo {
+  display: flex;
+  align-items: center;
+}
+
+.modalInstructorIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: #9ca3af;
+}
+
+.modalInstructorName {
+  color: #374151;
+}
+
+.modalDescription {
+  color: #374151;
+  line-height: 1.6;
+}
+
+.modalMaterialsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modalMaterialItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.modalMaterialItem:hover {
+  background-color: #f3f4f6;
+}
+
+.modalMaterialInfo {
+  display: flex;
+  align-items: center;
+}
+
+.modalMaterialIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  color: #9ca3af;
+}
+
+.modalMaterialName {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.modalMaterialDownload {
+  width: 1rem;
+  height: 1rem;
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+
+.modalMaterialItem:hover .modalMaterialDownload {
+  color: #3b82f6;
+}
+
+.modalFooter {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb;
+}
+
+.modalFooterActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.modalCloseButtonSecondary {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.modalCloseButtonSecondary:hover {
+  background-color: #f9fafb;
+}
+
+
+/* 자료실 관련 스타일 */
+.materialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.materialCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: shadow 0.2s ease;
+}
+
+.materialCard:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.materialInfo {
+  margin-bottom: 1rem;
+}
+
+.materialTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+}
+
+.materialSize {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.25rem;
+}
+
+.materialDate {
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.materialActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.shareButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 업로드 상태 */
+.uploadStatus {
+  background: #e6fffa;
+  border: 1px solid #38b2ac;
+  color: #38b2ac;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* 업로드 버튼 스타일링 */
+.uploadButton {
+  cursor: pointer;
+  position: relative;
+}
+
+.uploadButton input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* 로딩 스피너 */
+.loadingSpinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3182ce;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.retryButton {
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+.retryButton:hover {
+  background: #2c5282;
+}
