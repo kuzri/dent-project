@@ -120,32 +120,32 @@ const uploadToS3 = async (file, key) => {
   }
 };
 
-// S3에서 파일 삭제
-const deleteFromS3 = async (key) => {
-  const params = {
-    Bucket: process.env.AWS_S3_BUCKET,
-    Key: key
-  };
+// // S3에서 파일 삭제
+// const deleteFromS3 = async (key) => {
+//   const params = {
+//     Bucket: process.env.AWS_S3_BUCKET,
+//     Key: key
+//   };
 
-  try {
-    await s3.deleteObject(params).promise();
-    return true;
-  } catch (error) {
-    console.error('S3 삭제 에러:', error);
-    return false;
-  }
-};
+//   try {
+//     await s3.deleteObject(params).promise();
+//     return true;
+//   } catch (error) {
+//     console.error('S3 삭제 에러:', error);
+//     return false;
+//   }
+// };
 
-// S3 파일 다운로드 URL 생성 (Presigned URL)
-const generateDownloadUrl = (key, expiresIn = 3600) => {
-  const params = {
-    Bucket: process.env.AWS_S3_BUCKET,
-    Key: key,
-    Expires: expiresIn // 1시간
-  };
+// // S3 파일 다운로드 URL 생성 (Presigned URL)
+// const generateDownloadUrl = (key, expiresIn = 3600) => {
+//   const params = {
+//     Bucket: process.env.AWS_S3_BUCKET,
+//     Key: key,
+//     Expires: expiresIn // 1시간
+//   };
 
-  return s3.getSignedUrl('getObject', params);
-};
+//   return s3.getSignedUrl('getObject', params);
+// };
 
 // 에러 핸들링 미들웨어
 const errorHandler = (err, req, res, next) => {
@@ -354,79 +354,79 @@ app.get('/api/materials', async (req, res) => {
   }
 });
 
-// 파일 공유
-app.get('/api/materials/share/:fileId', async (req, res) => {
-  try {
-    const { fileId } = req.params;
-    const fileIdNum = parseInt(fileId);
+// // 파일 공유
+// app.get('/api/materials/share/:fileId', async (req, res) => {
+//   try {
+//     const { fileId } = req.params;
+//     const fileIdNum = parseInt(fileId);
     
-    if (isNaN(fileIdNum)) {
-      return res.status(400).json({
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: '잘못된 파일 ID입니다.'
-        }
-      });
-    }
+//     if (isNaN(fileIdNum)) {
+//       return res.status(400).json({
+//         error: {
+//           code: 'VALIDATION_ERROR',
+//           message: '잘못된 파일 ID입니다.'
+//         }
+//       });
+//     }
     
-    // DB에서 파일 정보 조회
-    const query = `
-      SELECT id, name, s3_key as "s3Key"
-      FROM materials 
-      WHERE id = $1
-    `;
+//     // DB에서 파일 정보 조회
+//     const query = `
+//       SELECT id, name, s3_key as "s3Key"
+//       FROM materials 
+//       WHERE id = $1
+//     `;
     
-    const result = await dbPool.query(query, [fileIdNum]);
-    const rows = result.rows;
+//     const result = await dbPool.query(query, [fileIdNum]);
+//     const rows = result.rows;
     
-    if (rows.length === 0) {
-      return res.status(404).json({
-        error: {
-          code: 'NOT_FOUND',
-          message: '파일을 찾을 수 없습니다.'
-        }
-      });
-    }
+//     if (rows.length === 0) {
+//       return res.status(404).json({
+//         error: {
+//           code: 'NOT_FOUND',
+//           message: '파일을 찾을 수 없습니다.'
+//         }
+//       });
+//     }
     
-    const material = rows[0];
+//     const material = rows[0];
     
-    // 공유 토큰 생성
-    const shareToken = uuidv4();
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + (parseInt(process.env.SHARE_LINK_EXPIRY_DAYS) || 7));
+//     // 공유 토큰 생성
+//     const shareToken = uuidv4();
+//     const expiresAt = new Date();
+//     expiresAt.setDate(expiresAt.getDate() + (parseInt(process.env.SHARE_LINK_EXPIRY_DAYS) || 7));
     
-    // DB에 공유 정보 저장
-    const insertQuery = `
-      INSERT INTO share_tokens (token, material_id, expires_at, created_at)
-      VALUES ($1, $2, $3, NOW())
-    `;
+//     // DB에 공유 정보 저장
+//     const insertQuery = `
+//       INSERT INTO share_tokens (token, material_id, expires_at, created_at)
+//       VALUES ($1, $2, $3, NOW())
+//     `;
     
-    await dbPool.query(insertQuery, [shareToken, fileIdNum, expiresAt]);
+//     await dbPool.query(insertQuery, [shareToken, fileIdNum, expiresAt]);
     
-    const shareUrl = `${req.protocol}://${req.get('host')}/shared/${shareToken}`;
+//     const shareUrl = `${req.protocol}://${req.get('host')}/shared/${shareToken}`;
     
-    res.json({
-      data: {
-        fileId: fileIdNum,
-        fileName: material.name,
-        shareUrl,
-        shareToken,
-        expiresAt: expiresAt.toISOString(),
-        createdAt: new Date().toISOString()
-      },
-      message: '파일 공유 링크가 생성되었습니다.'
-    });
+//     res.json({
+//       data: {
+//         fileId: fileIdNum,
+//         fileName: material.name,
+//         shareUrl,
+//         shareToken,
+//         expiresAt: expiresAt.toISOString(),
+//         createdAt: new Date().toISOString()
+//       },
+//       message: '파일 공유 링크가 생성되었습니다.'
+//     });
     
-  } catch (error) {
-    console.error('Error in GET /api/materials/share/:fileId:', error);
-    res.status(500).json({
-      error: {
-        code: 'SHARE_FAILED',
-        message: '파일 공유 중 오류가 발생했습니다.'
-      }
-    });
-  }
-});
+//   } catch (error) {
+//     console.error('Error in GET /api/materials/share/:fileId:', error);
+//     res.status(500).json({
+//       error: {
+//         code: 'SHARE_FAILED',
+//         message: '파일 공유 중 오류가 발생했습니다.'
+//       }
+//     });
+//   }
+// });
 
 // 파일 업로드 API - 시간 관련 코드 제거됨
 app.post('/api/materials/upload', upload.array('files', 1), async (req, res) => {
@@ -558,123 +558,123 @@ app.post('/api/materials/upload', upload.array('files', 1), async (req, res) => 
     });
   }
 });
-// 공유 파일 다운로드
-app.get('/shared/:token', async (req, res) => {
-  try {
-    const { token } = req.params;
+// // 공유 파일 다운로드
+// app.get('/shared/:token', async (req, res) => {
+//   try {
+//     const { token } = req.params;
     
-    // DB에서 공유 토큰 확인
-    const query = `
-      SELECT st.material_id, st.expires_at, m.name, m.s3_key
-      FROM share_tokens st
-      JOIN materials m ON st.material_id = m.id
-      WHERE st.token = $1
-    `;
+//     // DB에서 공유 토큰 확인
+//     const query = `
+//       SELECT st.material_id, st.expires_at, m.name, m.s3_key
+//       FROM share_tokens st
+//       JOIN materials m ON st.material_id = m.id
+//       WHERE st.token = $1
+//     `;
     
-    const result = await dbPool.query(query, [token]);
-    const rows = result.rows;
+//     const result = await dbPool.query(query, [token]);
+//     const rows = result.rows;
     
-    if (rows.length === 0) {
-      return res.status(404).json({
-        error: {
-          code: 'NOT_FOUND',
-          message: '유효하지 않은 공유 링크입니다.'
-        }
-      });
-    }
+//     if (rows.length === 0) {
+//       return res.status(404).json({
+//         error: {
+//           code: 'NOT_FOUND',
+//           message: '유효하지 않은 공유 링크입니다.'
+//         }
+//       });
+//     }
     
-    const shareInfo = rows[0];
+//     const shareInfo = rows[0];
     
-    // 만료 시간 확인
-    if (new Date() > new Date(shareInfo.expires_at)) {
-      // 만료된 토큰 삭제
-      await dbPool.query('DELETE FROM share_tokens WHERE token = $1', [token]);
-      return res.status(410).json({
-        error: {
-          code: 'EXPIRED',
-          message: '공유 링크가 만료되었습니다.'
-        }
-      });
-    }
+//     // 만료 시간 확인
+//     if (new Date() > new Date(shareInfo.expires_at)) {
+//       // 만료된 토큰 삭제
+//       await dbPool.query('DELETE FROM share_tokens WHERE token = $1', [token]);
+//       return res.status(410).json({
+//         error: {
+//           code: 'EXPIRED',
+//           message: '공유 링크가 만료되었습니다.'
+//         }
+//       });
+//     }
     
-    // 다운로드 카운트 증가
-    await dbPool.query(
-      'UPDATE materials SET download_count = download_count + 1 WHERE id = $1',
-      [shareInfo.material_id]
-    );
+//     // 다운로드 카운트 증가
+//     await dbPool.query(
+//       'UPDATE materials SET download_count = download_count + 1 WHERE id = $1',
+//       [shareInfo.material_id]
+//     );
     
-    // S3에서 파일 다운로드 URL 생성
-    const downloadUrl = generateDownloadUrl(shareInfo.s3_key);
+//     // S3에서 파일 다운로드 URL 생성
+//     const downloadUrl = generateDownloadUrl(shareInfo.s3_key);
     
-    // 클라이언트를 다운로드 URL로 리다이렉트
-    res.redirect(downloadUrl);
+//     // 클라이언트를 다운로드 URL로 리다이렉트
+//     res.redirect(downloadUrl);
     
-  } catch (error) {
-    console.error('Error in GET /shared/:token:', error);
-    res.status(500).json({
-      error: {
-        code: 'DOWNLOAD_FAILED',
-        message: '파일 다운로드 중 오류가 발생했습니다.'
-      }
-    });
-  }
-});
+//   } catch (error) {
+//     console.error('Error in GET /shared/:token:', error);
+//     res.status(500).json({
+//       error: {
+//         code: 'DOWNLOAD_FAILED',
+//         message: '파일 다운로드 중 오류가 발생했습니다.'
+//       }
+//     });
+//   }
+// });
 
-// 자료 삭제
-app.delete('/api/materials/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const materialId = parseInt(id);
+// // 자료 삭제
+// app.delete('/api/materials/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const materialId = parseInt(id);
     
-    if (isNaN(materialId)) {
-      return res.status(400).json({
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: '잘못된 자료 ID입니다.'
-        }
-      });
-    }
+//     if (isNaN(materialId)) {
+//       return res.status(400).json({
+//         error: {
+//           code: 'VALIDATION_ERROR',
+//           message: '잘못된 자료 ID입니다.'
+//         }
+//       });
+//     }
     
-    // DB에서 파일 정보 조회
-    const selectQuery = 'SELECT s3_key FROM materials WHERE id = $1';
-    const result = await dbPool.query(selectQuery, [materialId]);
-    const rows = result.rows;
+//     // DB에서 파일 정보 조회
+//     const selectQuery = 'SELECT s3_key FROM materials WHERE id = $1';
+//     const result = await dbPool.query(selectQuery, [materialId]);
+//     const rows = result.rows;
     
-    if (rows.length === 0) {
-      return res.status(404).json({
-        error: {
-          code: 'NOT_FOUND',
-          message: '자료를 찾을 수 없습니다.'
-        }
-      });
-    }
+//     if (rows.length === 0) {
+//       return res.status(404).json({
+//         error: {
+//           code: 'NOT_FOUND',
+//           message: '자료를 찾을 수 없습니다.'
+//         }
+//       });
+//     }
     
-    const s3Key = rows[0].s3_key;
+//     const s3Key = rows[0].s3_key;
     
-    // S3에서 파일 삭제
-    await deleteFromS3(s3Key);
+//     // S3에서 파일 삭제
+//     await deleteFromS3(s3Key);
     
-    // DB에서 자료 정보 삭제
-    await dbPool.query('DELETE FROM materials WHERE id = $1', [materialId]);
+//     // DB에서 자료 정보 삭제
+//     await dbPool.query('DELETE FROM materials WHERE id = $1', [materialId]);
     
-    // 관련된 공유 토큰들도 삭제
-    await dbPool.query('DELETE FROM share_tokens WHERE material_id = $1', [materialId]);
+//     // 관련된 공유 토큰들도 삭제
+//     await dbPool.query('DELETE FROM share_tokens WHERE material_id = $1', [materialId]);
     
-    res.json({
-      message: '자료가 성공적으로 삭제되었습니다.',
-      data: { id: materialId }
-    });
+//     res.json({
+//       message: '자료가 성공적으로 삭제되었습니다.',
+//       data: { id: materialId }
+//     });
     
-  } catch (error) {
-    console.error('Error in DELETE /api/materials/:id:', error);
-    res.status(500).json({
-      error: {
-        code: 'DELETE_FAILED',
-        message: '자료 삭제 중 오류가 발생했습니다.'
-      }
-    });
-  }
-});
+//   } catch (error) {
+//     console.error('Error in DELETE /api/materials/:id:', error);
+//     res.status(500).json({
+//       error: {
+//         code: 'DELETE_FAILED',
+//         message: '자료 삭제 중 오류가 발생했습니다.'
+//       }
+//     });
+//   }
+// });
 
 // DB 연결 테스트
 app.get('/health', async (req, res) => {

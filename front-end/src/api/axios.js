@@ -108,33 +108,13 @@ export const lecturesAPI = {
     const formattedMonth = month.toString().padStart(2, '0');
     return api.get(`/lectures/${year}/${formattedMonth}`);
   },
-  
-  // 특정 날짜의 강의 조회 (기존 유지)
-  getLecturesByDate: (date) => api.get(`/lectures/date/${date}`),
-  
-  // 특정 강의 조회
-  getLectureById: (id) => api.get(`/lectures/${id}`),
-  
-  // 새 강의 생성
-  createLecture: (lectureData) => api.post('/lectures', lectureData),
-  
-  // 강의 수정
-  updateLecture: (id, lectureData) => api.put(`/lectures/${id}`, lectureData),
-  
-  // 강의 삭제
-  deleteLecture: (id) => api.delete(`/lectures/${id}`),
+
 };
 
 // 자료실 관련 API 함수들
 export const materialsAPI = {
   // 자료실 탭 활성화시 모든 자료 조회 (파라미터 없음)
   getAllMaterials: () => api.get('/materials'),
-  
-  // 강의별 자료 조회
-  getMaterialsByLecture: (lectureId) => api.get(`/materials/lecture/${lectureId}`),
-  
-  // 파일 공유 요청 (파라미터: 해당 파일 id)
-  shareFile: (fileId) => api.get(`/materials/share/${fileId}`),
   
   // 파일 업로드 (파라미터: 업로드 파일 대상)
   uploadFile: (formData) => api.post('/materials/upload', formData, {
@@ -143,8 +123,7 @@ export const materialsAPI = {
     },
   }),
   
-  // 자료 삭제
-  deleteMaterial: (id) => api.delete(`/materials/${id}`),
+
 };
 
 export default api;
