@@ -1,0 +1,220 @@
+/* src/components/materials/Materials.module.css */
+.container {
+  width: 100%;
+}
+
+/* 자료실 상단 정보 */
+.materialsInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.materialsCount {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.materialsActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.refreshButton {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: white;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.refreshButton:hover {
+  background-color: #1d4ed8;
+}
+
+.refreshButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: white;
+  background-color: #16a34a;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.uploadButton:hover {
+  background-color: #15803d;
+}
+
+.uploadButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #16a34a;
+}
+
+.uploadIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+/* 자료실 컨테이너 */
+.materialsContainer {
+  width: 100%;
+  min-height: 43rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+.materialsEmptyState {
+  text-align: center;
+  padding: 3rem 0;
+  color: #9ca3af;
+  font-size: 1rem;
+}
+
+/* 자료 그리드 */
+.materialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.materialCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: shadow 0.2s ease;
+}
+
+.materialCard:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.materialInfo {
+  margin-bottom: 1rem;
+}
+
+.materialTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.materialTitle:hover {
+  color: #3182ce;
+}
+
+.materialSize {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.25rem;
+}
+
+.materialDate {
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.materialActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  color: #3182ce;
+  background-color: transparent;
+  border: 1px solid #3182ce;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.viewButton:hover {
+  background-color: #3182ce;
+  color: white;
+}
+
+.viewIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* 업로드 상태 */
+.uploadStatus {
+  background: #e6fffa;
+  border: 1px solid #38b2ac;
+  color: #38b2ac;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* 로딩 및 에러 상태 */
+.loadingContainer, .errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loadingSpinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3182ce;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.retryButton {
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+.retryButton:hover {
+  background: #2c5282;
+}

@@ -1,6 +1,7 @@
+// src/components/calendar/LectureModal.jsx
 import React from 'react';
 import { Calendar, Clock, User, X } from 'lucide-react';
-import styles from './calendar.module.css';
+import styles from './LectureModal.module.css';
 
 const LectureModal = ({ showModal, selectedLecture, onClose }) => {
   if (!showModal || !selectedLecture) return null;
@@ -32,10 +33,10 @@ const LectureModal = ({ showModal, selectedLecture, onClose }) => {
               <div className={styles.modalHeaderMeta}>
                 <span className={styles.modalMetaItem}>
                   <Calendar className={styles.modalMetaIcon} />
-                  {new Date(selectedLecture.date).toLocaleDateString('ko-KR', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  {new Date(selectedLecture.date).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </span>
                 <span className={styles.modalMetaItem}>

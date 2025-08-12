@@ -7,6 +7,9 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 require('dotenv').config()
 
+console.log('🕐 설정된 타임존:', process.env.TZ);
+console.log('🕐 현재 시간 (한국):', new Date().toLocaleString('ko-KR'));
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -316,6 +319,8 @@ app.get('/api/lectures/:id', async (req, res) => {
 // ===== 자료실 관련 API =====
 
 // 모든 자료 조회
+
+// 모든 자료 조회 API 수정된 버전
 app.get('/api/materials', async (req, res) => {
   try {
     const query = `
@@ -323,6 +328,7 @@ app.get('/api/materials', async (req, res) => {
         m.id, m.name, m.original_name as "originalName", m.size, m.size_bytes as "sizeBytes",
         m.type, m.extension, m.upload_date as "uploadDate", m.uploaded_by as "uploadedBy",
         m.lecture_id as "lectureId", m.download_count as "downloadCount",
+        m.title, m.content, m.category, m.description,
         l.title as "lectureTitle"
       FROM materials m
       LEFT JOIN lectures l ON m.lecture_id = l.id
@@ -422,8 +428,8 @@ app.get('/api/materials/share/:fileId', async (req, res) => {
   }
 });
 
-// 파일 업로드
-app.post('/api/materials/upload', upload.array('files', 10), async (req, res) => {
+// 파일 업로드 API - 시간 관련 코드 제거됨
+app.post('/api/materials/upload', upload.array('files', 1), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -434,7 +440,19 @@ app.post('/api/materials/upload', upload.array('files', 10), async (req, res) =>
       });
     }
     
-    const { lectureId, category, description } = req.body;
+    // 클라이언트에서 보내는 데이터
+    const { title, content, lectureId, category, description } = req.body;
+    
+    // title 필수 검증
+    if (!title || title.trim() === '') {
+      return res.status(400).json({
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: '제목은 필수입니다.'
+        }
+      });
+    }
+    
     const uploadedFiles = [];
     const failedFiles = [];
     
@@ -444,44 +462,48 @@ app.post('/api/materials/upload', upload.array('files', 10), async (req, res) =>
         const s3Key = generateS3Key(file.originalname);
         const s3Result = await uploadToS3(file, s3Key);
         
-        // DB에 파일 정보 저장
+        // DB에 파일 정보 저장 (upload_date는 DB에서 자동 설정)
         const insertQuery = `
           INSERT INTO materials (
             name, original_name, size, size_bytes, type, extension,
-            upload_date, uploaded_by, lecture_id, s3_key, s3_url,
-            category, description, download_count
-          ) VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7, $8, $9, $10, $11, $12, 0)
-          RETURNING id
+            uploaded_by, lecture_id, s3_key, s3_url,
+            category, description, title, content, download_count
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 0)
+          RETURNING id, upload_date
         `;
         
         const values = [
-          file.originalname,
-          file.originalname,
-          formatFileSize(file.size),
-          file.size,
-          file.mimetype,
-          getFileExtension(file.originalname),
-          '현재사용자', // 실제 환경에서는 인증된 사용자 정보 사용
-          lectureId ? parseInt(lectureId) : null,
-          s3Key,
-          s3Result.Location,
-          category || 'general',
-          description || ''
+          file.originalname,                          // $1: name
+          file.originalname,                          // $2: original_name
+          formatFileSize(file.size),                  // $3: size
+          file.size,                                  // $4: size_bytes
+          file.mimetype,                              // $5: type
+          getFileExtension(file.originalname),        // $6: extension
+          'uploaduser',                               // $7: uploaded_by
+          lectureId ? parseInt(lectureId) : null,     // $8: lecture_id
+          s3Key,                                      // $9: s3_key
+          s3Result.Location,                          // $10: s3_url
+          category || 'general',                      // $11: category
+          description || '',                          // $12: description
+          title.trim(),                               // $13: title
+          content || ''                               // $14: content
         ];
         
         const result = await dbPool.query(insertQuery, values);
-        const insertId = result.rows[0].id;
+        const insertedData = result.rows[0];
         
         const newMaterial = {
-          id: insertId,
+          id: insertedData.id,
           name: file.originalname,
+          title: title.trim(),
+          content: content || '',
           originalName: file.originalname,
           size: formatFileSize(file.size),
           sizeBytes: file.size,
           type: file.mimetype,
           extension: getFileExtension(file.originalname),
-          uploadDate: new Date().toISOString(),
-          uploadedBy: '현재사용자',
+          uploadDate: insertedData.upload_date,       // DB에서 자동 설정된 시간
+          uploadedBy: 'uploadUser',
           lectureId: lectureId ? parseInt(lectureId) : null,
           downloadCount: 0,
           category: category || 'general',
@@ -489,6 +511,12 @@ app.post('/api/materials/upload', upload.array('files', 10), async (req, res) =>
         };
         
         uploadedFiles.push(newMaterial);
+        
+        console.log('📁 파일 업로드 완료:', {
+          fileName: file.originalname,
+          title: title.trim(),
+          uploadDate: insertedData.upload_date
+        });
         
       } catch (error) {
         console.error('File processing error:', error);
@@ -499,7 +527,17 @@ app.post('/api/materials/upload', upload.array('files', 10), async (req, res) =>
       }
     }
     
-    res.json({
+    if (uploadedFiles.length === 0) {
+      return res.status(500).json({
+        error: {
+          code: 'UPLOAD_FAILED',
+          message: '모든 파일 업로드에 실패했습니다.',
+          details: failedFiles
+        }
+      });
+    }
+    
+    res.status(201).json({
       data: {
         uploadedFiles,
         failedFiles,
@@ -514,12 +552,12 @@ app.post('/api/materials/upload', upload.array('files', 10), async (req, res) =>
     res.status(500).json({
       error: {
         code: 'UPLOAD_FAILED',
-        message: '파일 업로드 중 오류가 발생했습니다.'
+        message: '파일 업로드 중 오류가 발생했습니다.',
+        details: error.message
       }
     });
   }
 });
-
 // 공유 파일 다운로드
 app.get('/shared/:token', async (req, res) => {
   try {

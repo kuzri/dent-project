@@ -1,10 +1,11 @@
-import QueryProvider from './components/queryProvider';
-import LectureCalendar from './calendar/calendar'
+import QueryProvider from './components/QueryProvider';
+// import LectureCalendar from './calendar/Calendar'
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
     <QueryProvider>
-      <LectureCalendar/>
+      <MainPage/>
     </QueryProvider>
   )
 }

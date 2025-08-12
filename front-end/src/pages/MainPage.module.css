@@ -1,0 +1,97 @@
+/* src/pages/MainPage.module.css */
+
+/* 레이아웃 스타일 */
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.nav {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navTabs {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navTab {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.navTab:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.navTabActive {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.navTabInactive {
+  color: #4b5563;
+}
+
+.navTabInactive:hover {
+  color: #1f2937;
+  background-color: #f9fafb;
+}
+
+.navIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+}
+
+/* 헤더 스타일 */
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem 1.5rem;
+}
+
+.headerContainer {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.headerTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* 메인 콘텐츠 스타일 */
+.mainContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.contentContainer {
+  width: 100%;
+  max-width: 72rem;
+  padding: 1rem 1.5rem;
+}
