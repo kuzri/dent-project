@@ -27,6 +27,7 @@ const DetailModal = ({ isOpen, onClose, material }) => {
           
           <div className={styles.detailSection}>
             <h4>파일 정보</h4>
+            <p>파일명: {material.name}</p>
             <p>크기: {material.size}</p>
             <p>업로드 날짜: {material.uploadDate}</p>
           </div>

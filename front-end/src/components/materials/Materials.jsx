@@ -179,6 +179,7 @@ const Materials = () => {
                   >
                     {material.title || material.name}
                   </h3>
+                  <p className={styles.materialName}>{material.name}</p>
                   <p className={styles.materialSize}>{material.size}</p>
                   <p className={styles.materialDate}>{material.uploadDate}</p>
                 </div>

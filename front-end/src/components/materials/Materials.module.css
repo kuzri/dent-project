@@ -128,6 +128,12 @@
   color: #3182ce;
 }
 
+.materialName {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.25rem;
+}
+
 .materialSize {
   font-size: 0.875rem;
   color: #718096;
